@@ -4,9 +4,12 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<title>{{.Title}}</title>
-	<script src="/js/htmx.min.js" integrity="sha384-Akqfrbj/HpNVo8k11SXBb6TlBWmXXlYQrCSqEWmyKJe+hDm3Z/B2WVG4smwBkRVm"></script>
+	<link rel="stylesheet" href="/static/css/app.css"/>
+	<script src="/static/js/htmx.min.js" integrity="sha384-Akqfrbj/HpNVo8k11SXBb6TlBWmXXlYQrCSqEWmyKJe+hDm3Z/B2WVG4smwBkRVm"></script>
 </head>
-<body>
-
+<body class="bg-white dark:bg-gray-900 w-full h-full">
+	<div class="flex items-center justify-center h-full">
+		<h1 class="text-5xl font-bold mb-4 uppercase">{{.Title}}</h1>
+	</div>
 </body>
 </html>

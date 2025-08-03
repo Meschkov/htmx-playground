@@ -1,0 +1,24 @@
+{
+  "name": "htmx-playground",
+  "version": "1.0.0",
+  "description": "Small side project to play around with HTMX, Go",
+  "homepage": "https://github.com/Meschkov/htmx-playground#readme",
+  "bugs": {
+    "url": "https://github.com/Meschkov/htmx-playground/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Meschkov/htmx-playground.git"
+  },
+  "license": "ISC",
+  "author": "Oliver Meschkov",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i web/templates/main.css -o ./web/static/css/app.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}

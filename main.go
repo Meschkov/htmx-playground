@@ -47,8 +47,12 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
-		w.Header().Set("Content-Type", "text/plain")
-		w.Write(data)
+		w.Header().Set("Content-Type", "image/x-icon")
+		_, err = w.Write(data)
+		if err != nil {
+			slog.Error("Failed to write on 'GET /favicon.ico'", "error", err)
+			return
+		}
 	})
 
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
@@ -58,12 +62,20 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "text/plain")
-		w.Write(data)
+		_, err = w.Write(data)
+		if err != nil {
+			slog.Error("Failed to write on 'GET /robots.txt'", "error", err)
+			return
+		}
 	})
 
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain")
-		w.Write([]byte(`OK`))
+		_, err := w.Write([]byte(`OK`))
+		if err != nil {
+			slog.Error("Failed to write on 'GET /health'", "error", err)
+			return
+		}
 	})
 
 	mux.HandleFunc("GET /", handlers.RootHandler())

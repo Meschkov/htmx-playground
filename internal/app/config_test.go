@@ -1,4 +1,4 @@
-package config
+package app
 
 import (
 	"errors"
@@ -59,17 +59,17 @@ logger:
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	if config.ServerConfig.Port != 8080 {
-		t.Errorf("expected port 8080, got %d", config.ServerConfig.Port)
+	if config.Server.Port != 8080 {
+		t.Errorf("expected port 8080, got %d", config.Server.Port)
 	}
-	if config.ServerConfig.Host != "localhost" {
-		t.Errorf("expected host 'localhost', got %s", config.ServerConfig.Host)
+	if config.Server.Host != "localhost" {
+		t.Errorf("expected host 'localhost', got %s", config.Server.Host)
 	}
-	if config.LoggerConfig.Level != "info" {
-		t.Errorf("expected level 'info', got %s", config.LoggerConfig.Level)
+	if config.Logger.Level != "info" {
+		t.Errorf("expected level 'info', got %s", config.Logger.Level)
 	}
-	if config.LoggerConfig.Format != "json" {
-		t.Errorf("expected format 'json', got %s", config.LoggerConfig.Format)
+	if config.Logger.Format != "json" {
+		t.Errorf("expected format 'json', got %s", config.Logger.Format)
 	}
 }
 

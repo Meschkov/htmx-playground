@@ -1,7 +1,8 @@
-package config
+package app
 
 import (
 	"errors"
+	"fmt"
 	"github.com/goccy/go-yaml"
 	"os"
 )
@@ -10,8 +11,8 @@ var ErrNoConfigFile = errors.New("no config file provided")
 
 // Config represents the application configuration structure.
 type Config struct {
-	ServerConfig *serverConfig `yaml:"server"`
-	LoggerConfig *loggerConfig `yaml:"logger"`
+	Server *serverConfig `yaml:"server"`
+	Logger *loggerConfig `yaml:"logger"`
 }
 
 // LoadConfig loads the configuration from a YAML file specified by filePath.
@@ -22,7 +23,7 @@ func LoadConfig(filePath string) (*Config, error) {
 	// Read the YAML file content.
 	f, err := os.ReadFile(filePath)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to read config file: %w", err)
 	}
 
 	// Load the YAML configuration from the file.

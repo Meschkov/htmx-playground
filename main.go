@@ -3,8 +3,9 @@ package main
 import (
 	"embed"
 	"fmt"
-	"github.com/Meschkov/htmx-playground/pkg/handlers"
-	"github.com/Meschkov/htmx-playground/pkg/middleware"
+	"github.com/Meschkov/htmx-playground/internal/app"
+	"github.com/Meschkov/htmx-playground/internal/handlers"
+	"github.com/Meschkov/htmx-playground/internal/middleware"
 	"io/fs"
 	"log/slog"
 	"net/http"
@@ -18,13 +19,16 @@ import (
 var static embed.FS
 
 func main() {
-	textHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		Level: slog.LevelDebug,
-	})
-	slog.SetDefault(slog.New(textHandler))
+	if len(os.Args) < 2 {
+		panic("Usage: go run main.go <config-file>")
+	}
+	configFilePath := os.Args[1]
 
-	port := "8080"
-	addr := ":" + port
+	app, err := app.InitializeApp(configFilePath)
+	if err != nil {
+		panic(err)
+	}
+
 	mux := http.NewServeMux()
 	chain := &middleware.Chain{}
 	chain.Use(middleware.RecoverMiddleware)
@@ -81,7 +85,7 @@ func main() {
 	mux.HandleFunc("GET /", handlers.RootHandler())
 
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%s", port),
+		Addr:    fmt.Sprintf("%s:%d", app.Config.Server.Host, app.Config.Server.Port),
 		Handler: wrappedMux,
 		// Recommended timeouts from
 		// https://blog.cloudflare.com/exposing-go-on-the-internet/
@@ -90,7 +94,7 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	slog.Info("Server listening", "addr", addr)
+	slog.Info("Server listening", "addr", fmt.Sprintf("%s:%d", app.Config.Server.Host, app.Config.Server.Port))
 	if err := server.ListenAndServe(); err != nil {
 		slog.Error("Server failed to start", "error", err)
 	}
